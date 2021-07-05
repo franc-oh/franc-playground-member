@@ -3,8 +3,11 @@
 ## 1. Description
 <b>개발놀이터 어플리케이션 - 회원/인증</b>
 - MSA 환경구축 - 회원/인증 파트
-- JWT 기반의 인증 구현  
+- JWT 기반의 인증 구현
 - 최종적으로 API-Gateway를 통한 SSO 인증환경 구축을 목표
+
+### v1
+- client, login/auth, member 기능을 가진 front 어플리케이션 구현
 <br/><br/>
   
 ## 2. Environment
