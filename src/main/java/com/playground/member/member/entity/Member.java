@@ -1,13 +1,17 @@
 package com.playground.member.member.entity;
 
+import com.playground.member.member.dto.MemberDTO;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 import javax.persistence.*;
 
 @Entity
 @Getter
+@ToString
 @NoArgsConstructor
 @SequenceGenerator(
         name = "seq_member_id",
@@ -58,5 +62,24 @@ public class Member {
         this.phone = phone;
         this.grade = grade;
         this.member_type = member_type;
+    }
+
+    public MemberDTO toDTO() {
+        return MemberDTO.builder()
+                .member_id(member_id)
+                .email(email)
+                .password(password)
+                .role(role)
+                .name(name)
+                .nickname(nickname)
+                .sex(sex)
+                .phone(phone)
+                .grade(grade)
+                .member_type(member_type)
+                .build();
+    }
+
+    public void passwordEncode(PasswordEncoder passwordEncoder) {
+        this.password = passwordEncoder.encode(this.password);
     }
 }

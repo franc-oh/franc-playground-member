@@ -1,0 +1,29 @@
+spring:
+  profiles:
+    active: local
+
+---
+## LOCAL PROP
+server:
+  port: 8080
+
+spring:
+  profiles: local
+
+  jpa:
+    show-sql: true
+    hibernate:
+      ddl-auto: create-drop
+    properies:
+      hibernate:
+        format_sql: true
+
+  h2:
+    console:
+      enabled: true
+
+  datasource:
+    driver-class-name: org.h2.Driver
+    url: jdbc:h2:mem:testdb
+    username: franc
+    password: 1234

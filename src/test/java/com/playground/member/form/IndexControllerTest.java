@@ -1,5 +1,8 @@
 package com.playground.member.form;
 
+import com.playground.member.member.dto.MemberDTO;
+import com.playground.member.member.entity.Member;
+import com.playground.member.member.service.MemberService;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -8,9 +11,11 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.test.web.servlet.MockMvc;
+import org.springframework.transaction.annotation.Transactional;
 
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.anonymous;
-import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.user;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestBuilders.formLogin;
+import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
+import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
@@ -22,6 +27,9 @@ public class IndexControllerTest {
 
     @Autowired
     MockMvc mockMvc;
+
+    @Autowired
+    MemberService memberService;
 
 
     /**
@@ -97,6 +105,33 @@ public class IndexControllerTest {
                 .andExpect(status().isOk())
                 .andExpect(model().attribute("message", admin_message))
                 .andExpect(view().name(viewName))
+                .andDo(print());
+    }
+
+
+    public Member insertMember(String email, String password, String role) {
+        MemberDTO memberDTO = memberService.insertMember(MemberDTO.builder()
+                                                                    .email(email)
+                                                                    .password(password)
+                                                                    .role(role)
+                                                                    .build());
+        return memberDTO.toEntity();
+    }
+
+    /**
+     * 실제 폼로그인 테스트
+     */
+    @Test
+    @Transactional
+    public void form_login() throws Exception{
+        String email = "user@naver.com";
+        String password = "u123";
+        String role = "USER";
+
+        Member member = insertMember(email, password, role);
+
+        mockMvc.perform(formLogin().user(email).password(password))
+                .andExpect(authenticated())
                 .andDo(print());
     }
 
