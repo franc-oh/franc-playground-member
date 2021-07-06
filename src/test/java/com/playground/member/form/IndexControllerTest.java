@@ -17,6 +17,7 @@ import static org.springframework.security.test.web.servlet.request.SecurityMock
 import static org.springframework.security.test.web.servlet.request.SecurityMockMvcRequestPostProcessors.*;
 import static org.springframework.security.test.web.servlet.response.SecurityMockMvcResultMatchers.authenticated;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
+import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.post;
 import static org.springframework.test.web.servlet.result.MockMvcResultHandlers.print;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -39,18 +40,16 @@ public class IndexControllerTest {
     @Test
     public void index_page() throws Exception {
         String viewName = "/index";
-        String message_anonymous = "Welcome";
-        String message_user = "Welcome user@naver.com";
+        String message_user = "user@naver.com";
 
         mockMvc.perform(get("/").with(anonymous()))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("message", message_anonymous))
                 .andExpect(view().name(viewName))
                 .andDo(print());
 
         mockMvc.perform(get("/").with(user("user@naver.com").roles("USER")))
                 .andExpect(status().isOk())
-                .andExpect(model().attribute("message", message_user))
+                .andExpect(model().attribute("loginUserName", message_user))
                 .andExpect(view().name(viewName))
                 .andDo(print());
     }
@@ -119,9 +118,8 @@ public class IndexControllerTest {
     }
 
     /**
-     * 실제 폼로그인 테스트
+     * 실제 폼로그인 테스트 (비활성)
      */
-    @Test
     @Transactional
     public void form_login() throws Exception{
         String email = "user@naver.com";
@@ -130,7 +128,7 @@ public class IndexControllerTest {
 
         Member member = insertMember(email, password, role);
 
-        mockMvc.perform(formLogin().user(email).password(password))
+        mockMvc.perform(post("/login").with(user(email).password(password)))
                 .andExpect(authenticated())
                 .andDo(print());
     }

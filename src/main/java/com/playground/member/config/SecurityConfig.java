@@ -25,13 +25,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
             .authorizeRequests()
                 .antMatchers("/h2-console/**").permitAll()
-                .mvcMatchers("/", "/member/**").permitAll()
+                .mvcMatchers("/", "/api/v1/member/**", "/join").permitAll()
                 .mvcMatchers("/admin").hasRole("ADMIN")
                 .mvcMatchers("/user").hasRole("USER")
                 .anyRequest().authenticated()
                 .expressionHandler(expressionHandler());
+
         http
             .formLogin()
+                .loginPage("/login").permitAll()
+                .usernameParameter("email")
+                .and()
+            .logout()
+                .logoutSuccessUrl("/")
                 .and()
             .httpBasic();
 
