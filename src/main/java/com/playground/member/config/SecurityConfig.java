@@ -24,7 +24,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http
             .authorizeRequests()
-                .antMatchers("/member/**").permitAll()
+                .antMatchers("/h2-console/**").permitAll()
                 .mvcMatchers("/", "/member/**").permitAll()
                 .mvcMatchers("/admin").hasRole("ADMIN")
                 .mvcMatchers("/user").hasRole("USER")
@@ -36,7 +36,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
             .httpBasic();
 
         http
-            .csrf().disable();
+            .csrf()
+                .disable();
+
+        http
+            .headers()
+                .frameOptions()
+                .disable();
     }
 
 

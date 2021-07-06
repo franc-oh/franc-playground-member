@@ -13,12 +13,12 @@ public class MemberApiController {
 
     final MemberService memberService;
 
-    @GetMapping("/member/v1/{email}/{password}/{role}")
+    @GetMapping("/api/v1/member/{email}/{password}/{role}")
     public MemberDTO insertMemberQ(@ModelAttribute MemberDTO reqMemberDTO) {
         return memberService.insertMember(reqMemberDTO);
     }
 
-    @PostMapping("/member/v1")
+    @PostMapping("/api/v1/member")
     public MemberDTO insertMember(@RequestBody MemberDTO reqMemberDTO) {
         return memberService.insertMember(reqMemberDTO);
     }

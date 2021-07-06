@@ -35,7 +35,7 @@ public class MemberApiControllerTest {
     @Test
     @Transactional
     public void signin() throws Exception {
-        String url = "http://localhost:" + port + "/member/v1";
+        String url = "http://localhost:" + port + "/api/v1/member";
         String email = "user9@naver.com";
         String password = "u123";
         String role = "USER";
