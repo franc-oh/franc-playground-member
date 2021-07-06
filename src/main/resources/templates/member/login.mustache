@@ -3,7 +3,7 @@
 <h1>로그인</h1>
 <div class="col-md-12">
     <div class="col-md-4">
-        <form action="/login" method="post">
+        <form method="post" action="/login">
             <div class="form-group">
                 <label for="title">이메일</label>
                 <input type="text" class="form-control"
@@ -15,8 +15,10 @@
                 <input type="password" class="form-control"
                        id="password" name="password" placeholder="비밀번호를 입력하세요.">
             </div>
-            <button type="submit" class="btn btn-primary" id="btn-save">등록</button>
+            <button type="submit" class="btn btn-primary" id="btn-login">로그인</button>
+            <a href="/" class="btn btn-secondary">취소</a>
         </form>
+
     </div>
 </div>
 
